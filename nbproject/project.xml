@@ -3,7 +3,11 @@
     <type>org.netbeans.modules.php.project</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/php-project/1">
+<<<<<<< HEAD
             <name>ProyectoAT</name>
+=======
+            <name>framework</name>
+>>>>>>> 445e8c261adaff0160c12817cd4be25f04ac747d
         </data>
     </configuration>
 </project>

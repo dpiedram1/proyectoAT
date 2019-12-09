@@ -1,6 +1,4 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-?><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -11,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
   <link rel="shortcut icon" href="<?= base_url('');?>img/favicon.png">
 
-  <title>Login Page 2 | Creative - Bootstrap 3 Responsive Admin Template</title>
+  <title>Login</title>
 
   <!-- Bootstrap CSS -->
   <link href="<?= base_url('');?>css/bootstrap.min.css" rel="stylesheet">
@@ -43,23 +41,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
   <div class="container">
 
-    <form class="login-form" action="index.html">
+    
+    <?php echo form_open('User/ingreso', array('class'=>'login-form'))?>
+    
       <div class="login-wrap">
         <p class="login-img"><i class="icon_lock_alt"></i></p>
         <div class="input-group">
           <span class="input-group-addon"><i class="icon_profile"></i></span>
-          <input type="text" class="form-control" placeholder="Username" autofocus>
+          <input type="text" id="user" name="cedula" class="form-control" placeholder="Cédula" autofocus>
         </div>
         <div class="input-group">
           <span class="input-group-addon"><i class="icon_key_alt"></i></span>
-          <input type="password" class="form-control" placeholder="Password">
+          <input type="password" id="pass" name="pass" class="form-control" placeholder="Contraseña">
         </div>
-        <label class="checkbox">
-                <input type="checkbox" value="remember-me"> Remember me
-                <span class="pull-right"> <a href="#"> Forgot Password?</a></span>
-            </label>
+        
         <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
-        <button class="btn btn-info btn-lg btn-block" type="submit">Signup</button>
+        <?php echo $this->session->flashdata('login_error'); ?>
       </div>
     </form>
     <div class="text-right">
