@@ -64,7 +64,7 @@
         </div>
         <div class="input-group">
           <span class="input-group-addon"><i class="icon_key_alt"></i></span>
-          <input type="password" id="pass2" name="pass2" class="form-control" placeholder="Contraseña" required maxlength="20" onkeypress="return contra(event);" onblur="return comprobarClave()"/>
+          <input type="password" id="pass2" name="pass2" class="form-control" placeholder="Repetir Contraseña" required maxlength="20" onkeypress="return contra(event);" onblur="return comprobarClave()"/>
         </div>
         
         <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>

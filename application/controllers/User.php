@@ -1,7 +1,8 @@
 <?php
- 
+$id = 0;
+
 class User extends CI_Controller {
- 
+
     public function __construct() {
         parent::__construct();
         $this->load->model('user_model');
@@ -26,6 +27,16 @@ class User extends CI_Controller {
     {
         $this->load->view('pages/perfil_usuario');
         //flecha es como usar el punto en java, acceder al metodo o atributo de un objeto
+    }
+    
+    public function sensorA()
+    {
+        $this->load->view('pages/sensorA');
+        //flecha es como usar el punto en java, acceder al metodo o atributo de un objeto
+    }
+    
+    public function generarRandom(){
+        $this->user_model->guardarDB();
     }
     
     public function ingreso() {
@@ -99,6 +110,16 @@ class User extends CI_Controller {
         $this->load->view('welcome_message');
     }
  
+    public function grafica_temp()
+    {
+        $data['temperatura'] = $this->user_model->get_Temp();
+        $this->load-> view('pages/sensorA',$data);
+    }
     
+    public function grafica_temp2()
+    {
+        $data['temperatura'] = $this->user_model->get_Temp();
+        $this->load-> view('pages/sensorB',$data);
+    }
  
 }
