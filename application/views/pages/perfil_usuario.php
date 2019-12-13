@@ -96,9 +96,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <span class="menu-arrow arrow_carrot-right"></span>
                       </a>
             <ul class="sub">
-              <li><a class="" href="<?= base_url('');?>index.php/User/grafica_temp">Sensor A</a></li>
-              <li><a class="" href="<?= base_url('');?>index.php/User/grafica_temp2">Sensor B</a></li>
-              <li><a class="" href="<?= base_url('');?>form_validation.html">Sensor C</a></li>
+              <li><a class="" href="<?= base_url('');?>index.php/User/sensorA">Sensor A</a></li>
+              <li><a class="" href="<?= base_url('');?>index.php/User/sensorB">Sensor B</a></li>
+              <li><a class="" href="<?= base_url('');?>index.php/User/sensorC">Sensor C</a></li>
             </ul>
           </li>
         </ul>

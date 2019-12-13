@@ -58,7 +58,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             
             var refreshId = setInterval(function(){
                 count++;
-                $('#timeval').load('<?= base_url('');?>index.php/User/obtenerValorUlt/'+count);
+                $('#timeval').load('<?= base_url('');?>index.php/User/obtenerValor/'+count);
                 abc = document.getElementById('timeval');
                 var a = abc.innerHTML.split(",");
                 var tiempo = a[1].split(":");
@@ -75,7 +75,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <script>
         $(document).ready(function(){
             var refreshId = setInterval(function(){
-                $('#timeval2').load('<?= base_url('');?>index.php/User/generarRandomUlt');
+                $('#timeval2').load('<?= base_url('');?>index.php/User/generarRandom');
             }, 2000);
             
             $("#stop").click(function()
@@ -95,13 +95,13 @@ var dataPoints1 = [];
 
 var options = {
 	title: {
-		text: "Sensor de Ultrasonido"
+		text: "Sensor de Temperatura"
 	},
 	axisX: {
 		title: "Actualizado cada 2 segundos"
 	},
 	axisY: {
-		suffix: "cm",
+		suffix: "°C",
 		includeZero: false,
                 gridColor: "lightblue"
 	},
@@ -118,7 +118,7 @@ var options = {
 	data: [{
 		type: "line",
 		xValueType: "dateTime",
-		yValueFormatString: "###.00cm",
+		yValueFormatString: "###.00°C",
 		xValueFormatString: "hh:mm:ss TT",
 		showInLegend: true,
 		name: "Turbine 1",
@@ -144,7 +144,7 @@ var yValue1 = 0;
 
 function updateChart(count) {
 	count = count || 1;
-	var deltaY1;
+	var deltaY1, deltaY2, deltaY3;
         
 	for (var i = 0; i < count; i++) {
 		//time.setTime(time.getTime() + updateInterval);
@@ -168,7 +168,7 @@ function updateChart(count) {
 	}
 
 	// updating legend text with  updated with y Value 
-	options.data[0].legendText = "Distancia : "+ valorY +" cm";
+	options.data[0].legendText = "Temperatura : "+ valorY +" °C";
 	$("#chartContainer").CanvasJSChart().render();
 }
 // generates first set of dataPoints 

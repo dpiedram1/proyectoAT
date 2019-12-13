@@ -20,27 +20,165 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- font icon -->
     <link href="<?= base_url('');?>css/elegant-icons-style.css" rel="stylesheet" />
     <link href="<?= base_url('');?>css/font-awesome.min.css" rel="stylesheet" />
-    <!-- full calendar css-->
-    <link href="<?= base_url('');?>assets/fullcalendar/fullcalendar/bootstrap-fullcalendar.css" rel="stylesheet" />
-    <link href="<?= base_url('');?>assets/fullcalendar/fullcalendar/fullcalendar.css" rel="stylesheet" />
-    <!-- easy pie chart-->
-    <link href="<?= base_url('');?>assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css" media="screen" />
-    <!-- owl carousel -->
-    <link rel="stylesheet" href="<?= base_url('');?>css/owl.carousel.css" type="text/css">
-    <link href="<?= base_url('');?>css/jquery-jvectormap-1.2.2.css" rel="stylesheet">
     <!-- Custom styles -->
-    <link rel="stylesheet" href="<?= base_url('');?>css/fullcalendar.css">
     <link href="<?= base_url('');?>css/widgets.css" rel="stylesheet">
     <link href="<?= base_url('');?>css/style.css" rel="stylesheet">
     <link href="<?= base_url('');?>css/style-responsive.css" rel="stylesheet" />
-    <link href="<?= base_url('');?>css/xcharts.min.css" rel=" stylesheet">
-    <link href="<?= base_url('');?>css/jquery-ui-1.10.4.min.css" rel="stylesheet">
+
     <!-- =======================================================
     Theme Name: NiceAdmin
     Theme URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
     Author: BootstrapMade
     Author URL: https://bootstrapmade.com
   ======================================================= -->
+    
+    
+    <script>
+        var resp = [];
+        var time = new Date;
+        var valorY;
+    </script>
+    
+    <script type="text/javascript">
+        function crearCadena(json){
+            var parsed = JSON.parse(json);
+            var arr=[];
+            for(var x in parsed){
+                arr.push(parsed[x]);
+            }
+            return arr;
+            }
+    </script>
+    
+        <script src="<?= base_url('');?>js/jquery.js"></script>
+        <script>
+        var count = -1;
+        var abc;
+        $(document).ready(function(){
+            
+            var refreshId = setInterval(function(){
+                count++;
+                $('#timeval').load('<?= base_url('');?>index.php/User/obtenerValor/'+count);
+                abc = document.getElementById('timeval');
+                var a = abc.innerHTML.split(",");
+                var tiempo = a[1].split(":");
+                time.setHours(tiempo[0],tiempo[1],tiempo[2]);
+                valorY = parseInt(a[0]);
+                //resp.push({
+		//	x: time.getTime(),
+		//	y: valorY
+		//});
+                }, 2000);
+        });
+        </script>
+        
+        <script>
+        $(document).ready(function(){
+            var refreshId = setInterval(function(){
+                $('#timeval2').load('<?= base_url('');?>index.php/User/generarRandom');
+            }, 2000);
+            
+            $("#stop").click(function()
+            {
+                clearInterval(refreshId);
+            });
+        });
+        </script>
+        
+        <div align="center" hidden="true" id="timeval"></div>
+        <div align="center" id="timeval2"></div>
+        
+<script>
+window.onload = function () {
+
+var dataPoints1 = [];
+
+var options = {
+	title: {
+		text: "Sensor de Temperatura"
+	},
+	axisX: {
+		title: "Actualizado cada 2 segundos"
+	},
+	axisY: {
+		suffix: "°C",
+		includeZero: false,
+                gridColor: "lightblue"
+	},
+	toolTip: {
+		shared: true
+	},
+	legend: {
+		cursor: "pointer",
+		verticalAlign: "top",
+		fontSize: 22,
+		fontColor: "dimGrey",
+		itemclick: toggleDataSeries
+	},
+	data: [{
+		type: "line",
+		xValueType: "dateTime",
+		yValueFormatString: "###.00°C",
+		xValueFormatString: "hh:mm:ss TT",
+		showInLegend: true,
+		name: "Turbine 1",
+		dataPoints: dataPoints1
+	}]
+};
+
+var chart = $("#chartContainer").CanvasJSChart(options);
+
+function toggleDataSeries(e) {
+	if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+		e.dataSeries.visible = false;
+	}
+	else {
+		e.dataSeries.visible = true;
+	}
+	e.chart.render();
+}
+
+var updateInterval = 2000;
+// initial value
+var yValue1 = 0;
+
+function updateChart(count) {
+	count = count || 1;
+	var deltaY1, deltaY2, deltaY3;
+        
+	for (var i = 0; i < count; i++) {
+		//time.setTime(time.getTime() + updateInterval);
+		deltaY1 = -1 + Math.random() * (1 + 1);
+
+		// adding random value and rounding it to two digits. 
+		yValue1 = Math.round((yValue1 + deltaY1) * 100) / 100;
+                //time.setHours(tiempo[0],tiempo[1],tiempo[2]);
+               // var valorY = parseInt(arreglo[i]);
+		// pushing the new values
+                
+		//dataPoints1.push({
+		//	x: time.getTime(),
+		//	y: valorY
+		//});
+                
+                dataPoints1.push({
+			x: time.getTime(),
+			y: valorY
+		});
+	}
+
+	// updating legend text with  updated with y Value 
+	options.data[0].legendText = "Temperatura : "+ valorY +" °C";
+	$("#chartContainer").CanvasJSChart().render();
+}
+// generates first set of dataPoints 
+updateChart(10);
+setInterval(function () { updateChart() }, updateInterval);
+
+}
+</script>
+    
+    
 </head>
 <body>
 
@@ -96,9 +234,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <span class="menu-arrow arrow_carrot-right"></span>
                       </a>
             <ul class="sub">
-              <li><a class="" href="<?= base_url('');?>form_component.html">Sensor A</a></li>
-              <li><a class="" href="<?= base_url('');?>form_validation.html">Sensor B</a></li>
-              <li><a class="" href="<?= base_url('');?>form_validation.html">Sensor C</a></li>
+              <li><a class="" href="<?= base_url('');?>index.php/User/sensorA">Sensor A</a></li>
+              <li><a class="" href="<?= base_url('');?>index.php/User/sensorB">Sensor B</a></li>
+              <li><a class="" href="<?= base_url('');?>index.php/User/sensorC">Sensor C</a></li>
             </ul>
           </li>
         </ul>
@@ -119,144 +257,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <!--  <li><i class="fa fa-laptop"></i>Inicio</li>-->
           </div>
         </div>
-        <div align="center" id="timeval">--:--:--</div>
-        <input type="submit" id="stop">
-        <script src="<?= base_url('');?>js/jquery.js"></script>
-        <script>
-        $(document).ready(function(){
-            var refreshId = setInterval(function(){
-                $('#timeval').load('<?= base_url('');?>index.php/User/generarRandom?randval='+Math.random());
-            }, 1000);
-            
-            $("#stop").click(function()
-            {
-                clearInterval(refreshId);
-            });
-        });
-        </script>
         
-        <?php
-                    $datos=array();
-                    $datos2=array();
-                    foreach ($temperatura as $temp_item): 
-                        $datos[] = $temp_item['Grados'];
-                        $datos2[] = $temp_item['Hora'];
-                    endforeach;
-                    $datosY = json_encode($datos);
-                    $datosX = json_encode($datos);
-                    
-        ?>
+        <div id="chartContainer" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>
+        <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+        <script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
         
-        <script type="text/javascript">
-            function crearCadena(json){
-                var parsed = JSON.parse(json);
-                var arr=[];
-                for(var x in parsed){
-                    arr.push(parsed[x]);
-                }
-                return arr;
-            }
-        </script>
-    
-    <!--<div ><span class="spark" id="press-log"></span></div>-->
-        
-        <div id="chartContainer" style="height: 300px; width: 100%;"></div>
-        <script src="<?= base_url('');?>assets/script/jquery-1.11.1.min.js"></script>
-        <script src="<?= base_url('');?>assets/script/jquery.canvasjs.min.js"></script>
-        
-        <script>
-        window.onload = function () {
-
-        var dataPoints1 = [];
-
-        var options = {
-            title: {
-		text: "Sensor de Temperatura"
-            },
-            axisX: {
-		title: "Datos actualizados cada 5 segundos"
-            },
-            axisY: {
-		suffix: "°C",
-		includeZero: false
-            },
-            toolTip: {
-		shared: true
-            },
-            legend: {
-		cursor: "pointer",
-		verticalAlign: "top",
-		fontSize: 22,
-		fontColor: "dimGrey",
-		itemclick: toggleDataSeries
-            },
-            data: [{
-		type: "line",
-		xValueType: "dateTime",
-		yValueFormatString: "###.00°C",
-		xValueFormatString: "hh:mm:ss TT",
-		showInLegend: true,
-		name: "Temperatura",
-		dataPoints: dataPoints1
-            }]
-        };
-
-        var chart = $("#chartContainer").CanvasJSChart(options);
-
-        function toggleDataSeries(e) {
-            if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-		e.dataSeries.visible = false;
-            }
-            else {
-		e.dataSeries.visible = true;
-            }
-            e.chart.render();
-        }
-
-        var updateInterval = 2000;
-        // initial value
-        var yValue1 = 0;
-        var yValue2 = 0;
-
-        var time = new Date;
-        // starting at 10.00 am
-        //time.setHours();
-        //time.setMinutes(00);
-        //time.setSeconds(00);
-        //time.setMilliseconds(00);
-
-        function updateChart(count) {
-            count = count || 1;
-            var deltaY1;
-            for (var i = 0; i < count; i++) {
-		time.setTime(time.getTime() + updateInterval);
-		deltaY1 = -1 + Math.random() * (1 + 1);
-		
-                
-                
-                
-		// adding random value and rounding it to two digits. 
-		yValue1 = crearCadena(<?php echo $datosY?>);
-                yValue2 = crearCadena(<?php echo $datosY?>);
-		
-		// pushing the new values
-		dataPoints1.push({
-			x: time.getTime(),
-			y: yValue1
-		});
-	}
-
-	// updating legend text with  updated with y Value 
-	options.data[0].legendText = "Turbine 1 : " + yValue1 + "Wh";
-	$("#chartContainer").CanvasJSChart().render();
-}
-// generates first set of dataPoints 
-updateChart(100);
-setInterval(function () { updateChart() }, updateInterval);
-
-}
-</script>
-
       </section>
       <div class="text-right">
         <div class="credits">
@@ -275,32 +280,12 @@ setInterval(function () { updateChart() }, updateInterval);
   <!-- container section start -->
 
   <!-- javascripts -->
-  <script src="<?= base_url('');?>js/jquery.js"></script>
-  <script src="<?= base_url('');?>js/jquery-ui-1.10.4.min.js"></script>
-  <script src="<?= base_url('');?>js/jquery-1.8.3.min.js"></script>
-  <script type="text/javascript" src="<?= base_url('');?>js/jquery-ui-1.9.2.custom.min.js"></script>
   <!-- bootstrap -->
   <script src="<?= base_url('');?>js/bootstrap.min.js"></script>
   <!-- nice scroll -->
   <script src="<?= base_url('');?>js/jquery.scrollTo.min.js"></script>
   <script src="<?= base_url('');?>js/jquery.nicescroll.js" type="text/javascript"></script>
-  <!-- charts scripts -->
-  <script src="<?= base_url('');?>assets/jquery-knob/js/jquery.knob.js"></script>
-  <script src="<?= base_url('');?>js/jquery.sparkline.js" type="text/javascript"></script>
-  <script src="<?= base_url('');?>assets/jquery-easy-pie-chart/jquery.easy-pie-chart.js"></script>
-  <script src="<?= base_url('');?>js/owl.carousel.js"></script>
-  <!-- jQuery full calendar -->
-  <<script src="<?= base_url('');?>js/fullcalendar.min.js"></script>
-    <!-- Full Google Calendar - Calendar -->
-    <script src="<?= base_url('');?>assets/fullcalendar/fullcalendar/fullcalendar.js"></script>
-    <!--script for this page only-->
-    <script src="<?= base_url('');?>js/calendar-custom.js"></script>
-    <script src="<?= base_url('');?>js/jquery.rateit.min.js"></script>
-    <!-- custom select -->
-    <script src="<?= base_url('');?>js/jquery.customSelect.min.js"></script>
-    <script src="<?= base_url('');?>assets/chart-master/Chart.js"></script>
-
-    <!--custome script for all page-->
+  <!--custome script for all page-->
     <script src="<?= base_url('');?>js/scripts.js"></script>
     <!-- custom script for this page-->
     <script src="<?= base_url('');?>js/sparkline-chart.js"></script>
@@ -314,8 +299,7 @@ setInterval(function () { updateChart() }, updateInterval);
     <script src="<?= base_url('');?>js/morris.min.js"></script>
     <script src="<?= base_url('');?>js/sparklines.js"></script>
     <script src="<?= base_url('');?>js/charts.js"></script>
-    <script src="<?= base_url('');?>js/jquery.slimscroll.min.js"></script>
-    
+    <script src="<?= base_url('');?>js/jquery.slimscroll.min.js"></script>  
     
         
     

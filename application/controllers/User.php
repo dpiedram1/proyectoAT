@@ -39,6 +39,10 @@ class User extends CI_Controller {
         $this->user_model->guardarDB();
     }
     
+    public function generarRandomUlt(){
+        $this->user_model->guardarDBUlt();
+    }
+    
     public function ingreso() {
 
         $this->load->helper('form');
@@ -109,17 +113,37 @@ class User extends CI_Controller {
         $this->load->helper('form');
         $this->load->view('welcome_message');
     }
- 
-    public function grafica_temp()
+
+    public function sensorB()
     {
-        $data['temperatura'] = $this->user_model->get_Temp();
-        $this->load-> view('pages/sensorA',$data);
+        $this->load->view('pages/sensorB');
+        //flecha es como usar el punto en java, acceder al metodo o atributo de un objeto
     }
     
-    public function grafica_temp2()
+    public function sensorC()
     {
-        $data['temperatura'] = $this->user_model->get_Temp();
-        $this->load-> view('pages/sensorB',$data);
+        $this->load->view('pages/sensorC');
+        //flecha es como usar el punto en java, acceder al metodo o atributo de un objeto
+    }
+    
+    public function obtenerValor($contador){
+        $data['temperatura'] = $this->user_model->get_1Temp($contador);
+        foreach ($data['temperatura'] as $temp_item): 
+            $datos = $temp_item['Grados'];
+            $datos2 = $temp_item['Hora'];
+        endforeach;
+        echo $datos.",";
+        echo $datos2;
+    }
+    
+    public function obtenerValorUlt($contador){
+        $data['ultra'] = $this->user_model->get_1Ult($contador);
+        foreach ($data['ultra'] as $temp_item): 
+            $datos = $temp_item['Distancia'];
+            $datos2 = $temp_item['Hora'];
+        endforeach;
+        echo $datos.",";
+        echo $datos2;
     }
  
 }
