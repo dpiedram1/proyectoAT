@@ -98,6 +98,21 @@ class User_model extends CI_Model {
         return $this->db->insert('Ultrasonido', $data);
     }
     
+    public function guardarDBC(){
+        
+        $this->load->helper('url');
+        date_default_timezone_set('America/Guayaquil');
+        $date = date('Y/m/d');
+        $time = date('H:i:s.v');
+        $data = array(
+            'ID_sensor' => 'NULL',
+            'Fecha' => $date,
+            'Hora' => $time,
+            'Valor' => rand(1,100)                      
+        );
+        return $this->db->insert('SensorC', $data);
+    }
+    
     public function get_Temp()
     {
         $sql='SELECT * from Temperatura';
@@ -115,6 +130,13 @@ class User_model extends CI_Model {
     public function get_1Ult($count)
     {
         $sql='SELECT * FROM Ultrasonido WHERE ID_ult = (SELECT min(ID_ult + '.$count.' ) FROM Ultrasonido)';
+        $query=$this->db->  query($sql);
+        return $query->result_array();
+    }
+    
+    public function get_1C($count)
+    {
+        $sql='SELECT * FROM SensorC WHERE ID_sensor = (SELECT min(ID_sensor + '.$count.' ) FROM SensorC)';
         $query=$this->db->  query($sql);
         return $query->result_array();
     }

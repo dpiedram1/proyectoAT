@@ -43,6 +43,10 @@ class User extends CI_Controller {
         $this->user_model->guardarDBUlt();
     }
     
+    public function generarRandomC(){
+        $this->user_model->guardarDBC();
+    }
+    
     public function ingreso() {
 
         $this->load->helper('form');
@@ -140,6 +144,16 @@ class User extends CI_Controller {
         $data['ultra'] = $this->user_model->get_1Ult($contador);
         foreach ($data['ultra'] as $temp_item): 
             $datos = $temp_item['Distancia'];
+            $datos2 = $temp_item['Hora'];
+        endforeach;
+        echo $datos.",";
+        echo $datos2;
+    }
+    
+    public function obtenerValorC($contador){
+        $data['sensor'] = $this->user_model->get_1C($contador);
+        foreach ($data['sensor'] as $temp_item): 
+            $datos = $temp_item['Valor'];
             $datos2 = $temp_item['Hora'];
         endforeach;
         echo $datos.",";
